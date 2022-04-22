@@ -6,6 +6,7 @@ import './main.css'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        { path: '/', component: App }
     ],
 })
 

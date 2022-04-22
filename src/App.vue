@@ -1,5 +1,5 @@
 <script setup></script>
 
 <template>
-<p>TESTje</p>
+    <p class="text-4xl">Test</p>
 </template>
