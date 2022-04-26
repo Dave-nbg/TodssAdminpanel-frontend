@@ -1,2 +1,5 @@
 <script setup></script>
-<template><p>ANDER WOORD</p></template>
+
+<template>
+    <h1>Locaties</h1>
+</template>

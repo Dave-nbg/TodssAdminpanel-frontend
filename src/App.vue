@@ -1,6 +1,11 @@
-<script setup></script>
+<script setup>
+import TheSidebar from './components/TheSidebar.vue';
+
+</script>
 
 <template>
-    <p class="text-4xl">Test</p>
-  <router-view></router-view>
+    <div class="flex-col sm:flex-row flex">
+        <TheSidebar/>
+        <router-view></router-view>
+    </div>
 </template>
