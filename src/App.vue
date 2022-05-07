@@ -5,7 +5,7 @@ import TheSidebar from './components/TheSidebar.vue';
 
 <template>
     <div class="flex-col sm:flex-row flex">
-        <TheSidebar/>
-        <router-view></router-view>
+
+        <router-view><TheSidebar/></router-view>
     </div>
 </template>
