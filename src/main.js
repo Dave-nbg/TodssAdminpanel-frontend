@@ -11,7 +11,7 @@ import './main.css'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: App },
+        { path: '/', component: LoginPage },
         { path: '/inlog', component: LoginPage},
         { path: '/gebruikers', component: UserPage},
         { path: '/categorieën', component: CategoryPage},
