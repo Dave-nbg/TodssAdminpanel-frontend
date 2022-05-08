@@ -9,9 +9,7 @@ function loggedIn(){
   <div class="m-auto grid ">
   <div class="m-auto">
 
-    <strong>
-    <h1 class="text-2xl">Kikkerberg</h1>
-    </strong>
+    <strong class="text-2xl">Kikkerberg</strong>
     <img src="/public/images/kikker.png" alt="logo" class="h-12 w-12 my-4 mx-10">
   </div>
 
