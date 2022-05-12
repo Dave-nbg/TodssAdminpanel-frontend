@@ -6,6 +6,21 @@ module.exports = {
   theme: {
 
     extend: {
+      gridTemplateAreas: {
+        'layout': [
+          'nav    main   main',
+        ],
+      },
+      gridTemplateColumns: {
+        'layout': '15rem 1fr 2rem',
+      },
+      gridTemplateRows: {
+        'layout': `6rem
+        3rem
+        1fr
+        auto`,
+      },
+
       colors: {
         'primary': {
           300: '#736CB7',
@@ -22,5 +37,5 @@ module.exports = {
       },
 
   }},
-  plugins: [],
+  plugins: [require('@savvywombat/tailwindcss-grid-areas')],
 }
