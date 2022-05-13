@@ -27,6 +27,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@savvywombat/tailwindcss-grid-areas": "^2.1.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
