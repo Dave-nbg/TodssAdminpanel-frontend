@@ -5,11 +5,38 @@ export class LocationService {
     }
 
     postLocation(location) {
-        return utils.query(`
-        mutation {
-           postSubject(name: "${location.name}"){name}
-        }
-        `).then(response => {if(response.errors !== undefined){this.throwError(response.message)}})
+        fetch('http://localhost:8080/location', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(location),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    editLocation(id, location){
+        const data = { id: id, name: location};
+        fetch('http://localhost:8080/location', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     async getLocations() {
