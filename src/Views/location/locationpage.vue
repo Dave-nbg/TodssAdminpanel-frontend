@@ -1,6 +1,5 @@
 <script setup>
 import AddLocation from "./components/addLocation.vue";
-import EditLocation from "./components/editLocation.vue";
 import TheSidebar from "../../components/TheSidebar.vue";
 </script>
 
@@ -14,8 +13,7 @@ import TheSidebar from "../../components/TheSidebar.vue";
     <h1 class="m-auto mt-5 font-bold text-2xl">Locatie</h1>
     <div class="flex m-10">
     <p>zoekbalk</p>
-    <add-location class="flex-right"></add-location></div>
-    <edit-location class="flex-left"></edit-location>
+    <add-location></add-location></div>
   </main>
   </body>
 </template>
