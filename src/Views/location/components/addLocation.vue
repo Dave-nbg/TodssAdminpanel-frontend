@@ -16,6 +16,8 @@ async function addLocation() {
   locations.value = await locationService.getLocations();
 }
 
+
+
 async function editLocation(){
 
   await locationService.editLocation(1,"test");

@@ -1,42 +1,47 @@
 <script setup>
 import TheSidebar from "../../components/TheSidebar.vue";
-import {computed, onMounted, ref} from 'vue'
 import { Dialog,DialogPanel,DialogTitle } from '@headlessui/vue'
 import {Location} from "./domain/location";
+import Searchbar from "../searchbar/searchbar.vue";
+import {onMounted, ref} from "vue";
 import {LocationService} from "./service/locationService";
-
+const items = ref(null);
 const locationService = new LocationService();
 const isOpen = ref(false)
 const locations = ref([]);
-
 onMounted(async () => {
-    locations.value = await locationService.getLocations();
+  locations.value = await locationService.getLocations();
+  const service = new LocationService();
+  const getItems = await service.getLocations();
+  const array = [];
+  getItems.forEach(item => {array.push(item)})
+  items.value = array;
 });
 
 function setIsOpen(value) {
-    isOpen.value = value
+  isOpen.value = value
 }
 
 async function addLocation() {
-    let location = new Location(document.querySelector('#locationName').value)
+  let location = new Location(document.querySelector('#locationName').value)
 
-    locationService.postLocation(location).then(response => {
-        locations.value.push(new Location(response.name));
-    });
+  locationService.postLocation(location).then(response => {
+    locations.value.push(new Location(response.name));
+  });
 
-    setIsOpen(false);
+  setIsOpen(false);
 }
 
 async function editLocation(){
-    await locationService.editLocation(1,"test");
-    locations.value = await locationService.getLocations();
+  await locationService.editLocation(1,"test");
+  locations.value = await locationService.getLocations();
 }
-
 
 </script>
 
 <template>
 
+<!--<<<<<<< Updated upstream-->
     <div class="grid grid-areas-layout grid-cols-layout grid-rows-layout h-full w-full">
         <nav class="grid-in-nav">
             <TheSidebar></TheSidebar>
@@ -44,7 +49,7 @@ async function editLocation(){
         <main class="grid-in-main grid">
             <h1 class="m-auto mt-5 font-bold text-2xl">Locatie</h1>
             <div class="flex m-10">
-                <p>zoekbalk</p>
+              <Searchbar :items="items"></Searchbar>
                 <div id="addLocationMenu" class="w-full h-full">
                     <button id="addButton" class="bg-primary-500 text-white float-right h-10 p-2  rounded" @click="setIsOpen(true)">Toevoegen</button>
                 </div>
