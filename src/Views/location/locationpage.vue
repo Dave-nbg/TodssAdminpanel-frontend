@@ -13,6 +13,7 @@ onMounted(async () => {
   locations.value = await locationService.getLocations();
   const service = new LocationService();
   const getItems = await service.getLocations();
+  console.log(getItems)
   const array = [];
   getItems.forEach(item => {array.push(item)})
   items.value = array;
