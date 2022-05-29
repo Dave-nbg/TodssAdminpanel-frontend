@@ -3,6 +3,7 @@ import TheSidebar from "../../components/TheSidebar.vue";
 import Searchbar from "../searchbar/searchbar.vue";
 import {onMounted, ref} from "vue";
 import {MenuitemService} from "./service/menuitemService";
+import AddMenuitem from "./component/addMenuitem.vue";
 
 const items = ref(null);
 
@@ -26,7 +27,7 @@ onMounted(async () => {
       <div class="flex m-10">
         <Searchbar :items="items" class="m-auto"></Searchbar>
       </div>
-<!--      <add-location></add-location>-->
+      <add-menuitem></add-menuitem>
     </main>
 
   </div>

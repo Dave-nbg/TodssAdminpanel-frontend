@@ -46,7 +46,6 @@ async function editLocation(){
 async function deleteLocation(locationId){
     await locationService.deleteLocation(locationId);
     locations.value = await locationService.getLocations();
-
 }
 
 function openEditMenu(locationId){
