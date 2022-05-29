@@ -29,6 +29,19 @@ export class LocationService {
         return await response.json();
     }
 
+    async deleteLocation(id){
+        const response = await fetch('http://localhost:8080/location/'+id , {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        return await response.json();
+    }
+
+
+
     async getLocations() {
         const response = await fetch("http://localhost:8080/location");
         const responseJson = await response.json();

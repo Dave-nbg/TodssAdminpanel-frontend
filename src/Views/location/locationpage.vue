@@ -9,11 +9,12 @@ const items = ref(null);
 const locationService = new LocationService();
 const isOpen = ref(false)
 const locations = ref([]);
+let locationIdEdit = ref(0);
+
 onMounted(async () => {
   locations.value = await locationService.getLocations();
   const service = new LocationService();
   const getItems = await service.getLocations();
-  console.log(getItems)
   const array = [];
   getItems.forEach(item => {array.push(item)})
   items.value = array;
@@ -26,16 +27,39 @@ function setIsOpen(value) {
 async function addLocation() {
   let location = new Location(document.querySelector('#locationName').value)
 
-  locationService.postLocation(location).then(response => {
-    locations.value.push(new Location(response.name));
+  locationService.postLocation(location).then(async response => {
+    locations.value = await locationService.getLocations();
   });
 
   setIsOpen(false);
 }
 
 async function editLocation(){
-  await locationService.editLocation(1,"test");
-  locations.value = await locationService.getLocations();
+  const locationName = document.querySelector('#locationEditName').value
+  if(locationName !== ""){
+  await locationService.editLocation(locationIdEdit.value,locationName);
+  locations.value = await locationService.getLocations();}
+  else{
+    alert("Er is niks ingevuld.")
+  }
+}
+
+async function deleteLocation(locationId){
+    await locationService.deleteLocation(locationId);
+    locations.value = await locationService.getLocations();
+
+}
+
+function openEditMenu(locationId){
+  document.querySelector('#locationEdit').style.display = 'block'
+  locationIdEdit.value = locationId;
+  console.log(locationId)
+  console.log(locationIdEdit.value)
+}
+
+
+function closeEditMenu(){
+  document.querySelector('#locationEdit').style.display = 'none'
 }
 
 </script>
@@ -57,11 +81,17 @@ async function editLocation(){
             </div>
 
             <div v-for="(location, index) in locations" :key="index">
+              <div class="hidden" id="locationEdit">
+              <input id="locationEditName" class="rounded border-2 m-2">
+              <button class="bg-primary-500 text-white m-2  rounded" @click="editLocation()">Edit locatie</button>
+              <button class="bg-red-700 text-white m-2 w-5" @click="closeEditMenu">X</button>
+            </div>
                 <label class="opmerking-item" for="opmerking">
                     <span class="ml-10">{{location.name}}</span>
                 </label>
-                <input type="button" value="✏️" class="edit">
-                <input type="button" value="🗑️" class="delete">
+                <input type="button" @click="openEditMenu(location.id)" value="✏️" class="edit">
+                <input type="button" value="🗑️" @click="deleteLocation(location.id)" class="delete">
+
             </div>
         </main>
 

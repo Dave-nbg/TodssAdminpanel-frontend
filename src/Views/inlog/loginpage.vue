@@ -10,7 +10,7 @@ function loggedIn(){
   <div class="m-auto">
 
     <strong class="text-2xl">Kikkerberg</strong>
-    <img src="/public/images/kikker.png" alt="logo" class="h-12 w-12 my-4 mx-10">
+    <img src="/images/kikker.png" alt="logo" class="h-12 w-12 my-4 mx-10">
   </div>
 
   <form class="border-2 rounded">
