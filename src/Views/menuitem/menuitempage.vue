@@ -2,11 +2,13 @@
 import TheSidebar from "../../components/TheSidebar.vue";
 import Searchbar from "../searchbar/searchbar.vue";
 import {onMounted, ref} from "vue";
-import {LocationService} from "../location/service/locationService";
+import {MenuitemService} from "./service/menuitemService";
 
 const items = ref(null);
 
 onMounted(async () => {
+  const service = new MenuitemService();
+  const getItems = await service.getMenuitems();
   const array = [];
   getItems.forEach(item => {array.push(item)})
   items.value = array;
