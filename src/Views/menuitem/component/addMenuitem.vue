@@ -1,15 +1,23 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {MenuitemService} from "../service/menuitemService";
+import {Location} from "../../location/domain/location";
+import {Menuitem} from "../domain/menuitem";
+import { Dialog,DialogPanel,DialogTitle } from '@headlessui/vue'
+import {LocationService} from "../../location/service/locationService";
+import {MenuitemDTO} from "../domain/menuitemDTO";
 
 
 const menuitemIdEdit = ref(0);
-const isOpen = ref(false)
-const menuitems = ref([])
-const menuItemService = new MenuitemService()
+const isOpen = ref(false);
+const menuitems = ref([]);
+const locations = ref([]);
+const menuItemService = new MenuitemService();
+const locationService = new LocationService();
 
 onMounted(async () => {
   menuitems.value = await menuItemService.getMenuitems();
+  locations.value = await locationService.getLocations();
 })
 
 function setIsOpen(value) {
@@ -41,6 +49,32 @@ async function deleteMenuitem(menuitemId){
   menuitems.value = await menuItemService.getMenuitems();
 }
 
+class Feature {
+  constructor(beschrijving, allergenen) {
+    this.beschrijving = beschrijving;
+    this.allergenen = allergenen;
+  }
+
+}
+
+async function addMenuitem(){
+  const name = document.querySelector('#menuitemName').value;
+  const price = document.getElementById("menuItemPrice").value;
+  const beschrijving = document.querySelector('#menuitemDescription').value;
+  let allergenen = document.querySelector('#menuitemAllergens').value;
+  if(allergenen === "Geen"){
+    allergenen = "";
+  }
+  let features = new Feature(beschrijving, allergenen)
+  let menuitemDTO = new MenuitemDTO(name,price,features,129,"");
+  console.log(menuitemDTO);
+    menuItemService.postMenuitem(menuitemDTO).then(async response => {
+    menuitems.value = await menuItemService.getMenuitems();
+  });
+
+  setIsOpen(false);
+}
+
 </script>
 
 <template>
@@ -63,4 +97,59 @@ async function deleteMenuitem(menuitemId){
 
     </div>
   </main>
+
+  <Dialog :open="isOpen" @close="setIsOpen" class="relative z-50">
+    <div class="fixed inset-0 bg-black/70" aria-hidden="true"></div>
+    <div class="fixed flex items-center inset-0 justify-center">
+      <DialogPanel class="bg-white rounded">
+        <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr" @click="setIsOpen(false)">X</button>
+        <div class="p-8">
+          <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
+
+
+          <form id="test" class="mt-8">
+            <div class="flex flex-col mb-10">
+              <label for="menuitemName">Menuitem naam:</label>
+              <input id="menuitemName" name="menuitemName" class="rounded border-2 mt-1 p-2" placeholder="Menuitem">
+              <label for="menuItemPrice">Menuitem prijs:</label>
+              <input id="menuItemPrice" name="menuItemPrice" class="rounded border-2 mt-1 p-2" placeholder="Menuitem prijs" type="number">
+              <fieldset class="border-2 mt-2 p-2 flex flex-col ">
+                <legend>Menuitem eigenschappen:</legend>
+                <br>
+              <label for="menuitemDescription">Beschrijving: </label>
+              <input id="menuitemDescription" name="menuitemDescription" class="rounded border-2 mt-1 p-2" placeholder="beschrijving">
+              <label for="menuitemAllergens">Allergenen: </label>
+              <select name="menuitemAllergens" id="menuitemAllergens">
+                <option name="Geen">Geen</option>
+                <option name="Selderij">Selderij</option>
+                <option name="Ei">Ei</option>
+                <option name="Vis">Vis</option>
+                <option name="Gluten">Gluten</option>
+                <option name="Lupine">Lupine</option>
+                <option name="Melk">Melk</option>
+                <option name="Weekdieren">Weekdieren</option>
+                <option name="Mosterd">Mosterd</option>
+                <option name="Noten">Noten</option>
+                <option name="Pindas">pinda's</option>
+                <option name="Sesam">Sesam</option>
+                <option name="Schaaldieren">Schaaldieren</option>
+                <option name="Soja">Soja</option>
+                <option name="Zwaveldioxide">Zwaveldioxide</option>
+              </select>
+
+              </fieldset>
+              <label for="PrepareLocation">Bereidings locatie: </label>
+              <select name="PrepareLocation" id="menuitemLocation">
+              <option v-for="location in locations">{{location.name}}</option>
+            </select>
+
+
+            </div>
+          </form>
+          <button @click="addMenuitem" class="bg-primary-500 my-2 h-12 rounded p-3">Locatie toevoegen</button>
+        </div>
+      </DialogPanel>
+
+    </div>
+  </Dialog>
 </template>

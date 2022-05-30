@@ -33,4 +33,16 @@ export class MenuitemService {
 
         return await response.json();
     }
+
+    async postMenuitem(menuitem) {
+        const response = await fetch('http://localhost:8080/menuitem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(menuitem),
+        });
+
+        return await response.json();
+    }
 }
