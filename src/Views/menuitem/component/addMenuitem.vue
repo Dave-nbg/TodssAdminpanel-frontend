@@ -36,8 +36,10 @@ function closeEditMenu(){
 
 async function editMenuitem() {
   const menuitemName = document.querySelector('#menuitemEditName').value
+  const locationId = document.querySelector('#locationId').value.split(' ')[0]
+  console.log(locationId)
   if (menuitemName !== "") {
-    await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName);
+    await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId);
     menuitems.value = await menuItemService.getMenuitems();
   } else {
     alert("Er is niks ingevuld.")
@@ -66,7 +68,7 @@ async function addMenuitem(){
     allergenen = "";
   }
   let features = new Feature(beschrijving, allergenen)
-  let menuitemDTO = new MenuitemDTO(name,price,features,129,"");
+  let menuitemDTO = new MenuitemDTO(name,price,features,171,"");
   console.log(menuitemDTO);
     menuItemService.postMenuitem(menuitemDTO).then(async response => {
     menuitems.value = await menuItemService.getMenuitems();
@@ -85,7 +87,11 @@ async function addMenuitem(){
 
     <div v-for="(menuitem, index) in menuitems" :key="index">
       <div class="hidden" id="menuItemEdit">
+        <label>menuitem naam</label>
         <input id="menuitemEditName" class="rounded border-2 m-2">
+        <select>
+          <option id="locationId" v-for="location in locations">{{location.id + " " +location.name}}</option>
+        </select>
         <button class="bg-primary-500 text-white m-2  rounded" @click="editMenuitem()">Edit locatie</button>
         <button class="bg-red-700 text-white m-2 w-5" @click="closeEditMenu">X</button>
       </div>
