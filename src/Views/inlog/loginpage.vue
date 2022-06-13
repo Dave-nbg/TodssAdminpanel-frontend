@@ -1,6 +1,6 @@
 <script setup>
 function loggedIn(){
-  location.href="/gebruikers"
+  location.href="/menuitems"
 }
 </script>
 

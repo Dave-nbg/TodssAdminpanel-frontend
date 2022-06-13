@@ -1,8 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {MenuitemService} from "../service/menuitemService";
-import {Location} from "../../location/domain/location";
-import {Menuitem} from "../domain/menuitem";
 import { Dialog,DialogPanel,DialogTitle } from '@headlessui/vue'
 import {LocationService} from "../../location/service/locationService";
 import {MenuitemDTO} from "../domain/menuitemDTO";
@@ -14,10 +12,14 @@ const menuitems = ref([]);
 const locations = ref([]);
 const menuItemService = new MenuitemService();
 const locationService = new LocationService();
+const allergenen = ref([]);
+const checkedAllergens = ref("");
 
 onMounted(async () => {
+  allergenen.value = ["Selderij","Ei","Vis", "Gluten", "Lupine", "Melk", "Weekdieren", "Mosterd", "Noten", "Pinda", "Sesam", "Schaaldieren", "Soja", "Zwaveldioxide"];
   menuitems.value = await menuItemService.getMenuitems();
   locations.value = await locationService.getLocations();
+
 })
 
 function setIsOpen(value) {
@@ -63,18 +65,35 @@ async function addMenuitem(){
   const name = document.querySelector('#menuitemName').value;
   const price = document.getElementById("menuItemPrice").value;
   const beschrijving = document.querySelector('#menuitemDescription').value;
-  let allergenen = document.querySelector('#menuitemAllergens').value;
-  if(allergenen === "Geen"){
-    allergenen = "";
-  }
-  let features = new Feature(beschrijving, allergenen)
-  let menuitemDTO = new MenuitemDTO(name,price,features,171,"");
-  console.log(menuitemDTO);
+
+  const locationId = document.querySelector('#menuitemLocationId').value.split(' ')[0]
+
+  let features = new Feature(beschrijving, checkedAllergens.value)
+  let menuitemDTO = new MenuitemDTO(name,price,features,locationId,"");
     menuItemService.postMenuitem(menuitemDTO).then(async response => {
     menuitems.value = await menuItemService.getMenuitems();
   });
 
   setIsOpen(false);
+}
+
+function test(){
+  var allergens = "";
+  for (let i = 0; i < document.querySelectorAll("#allergeenInfo").length; i++) {
+    let item = document.querySelectorAll("#allergeenInfo")[i];
+    if(item.children[0].checked){
+      if(allergens !== ""){
+        allergens += ", " + item.children[1].innerHTML
+      }
+      else {
+        allergens += item.children[1].innerHTML;
+      }
+    }
+  }
+  checkedAllergens.value = allergens
+  console.log(checkedAllergens.value);
+  // console.log(document.querySelectorAll("input[type='checkbox']"));
+
 }
 
 </script>
@@ -125,28 +144,25 @@ async function addMenuitem(){
               <label for="menuitemDescription">Beschrijving: </label>
               <input id="menuitemDescription" name="menuitemDescription" class="rounded border-2 mt-1 p-2" placeholder="beschrijving">
               <label for="menuitemAllergens">Allergenen: </label>
-              <select name="menuitemAllergens" id="menuitemAllergens">
-                <option name="Geen">Geen</option>
-                <option name="Selderij">Selderij</option>
-                <option name="Ei">Ei</option>
-                <option name="Vis">Vis</option>
-                <option name="Gluten">Gluten</option>
-                <option name="Lupine">Lupine</option>
-                <option name="Melk">Melk</option>
-                <option name="Weekdieren">Weekdieren</option>
-                <option name="Mosterd">Mosterd</option>
-                <option name="Noten">Noten</option>
-                <option name="Pindas">pinda's</option>
-                <option name="Sesam">Sesam</option>
-                <option name="Schaaldieren">Schaaldieren</option>
-                <option name="Soja">Soja</option>
-                <option name="Zwaveldioxide">Zwaveldioxide</option>
-              </select>
+
+
+                <div  class="grid-cols-4 grid">
+                <div   v-for="allergen in allergenen">
+                  <div id="allergeenInfo">
+                  <input id="menuitemAllergens" class="mr-2" type="checkbox"  @click="test()"/>
+                  <label for="menuitemAllergens">{{allergen}}</label>
+                  </div>
+                </div>
+            </div>
+
+
+
 
               </fieldset>
+              <p>Upload een plaatje</p>
               <label for="PrepareLocation">Bereidings locatie: </label>
               <select name="PrepareLocation" id="menuitemLocation">
-              <option v-for="location in locations">{{location.name}}</option>
+              <option id="menuitemLocationId" v-for="location in locations">{{location.id + " " + location.name}}</option>
             </select>
 
 
