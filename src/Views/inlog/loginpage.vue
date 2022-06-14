@@ -38,7 +38,7 @@ function  loggedIn(){
       <input type="text" id="email" name="email" class="border-2 mb-3 rounded">
       <label for="password">wachtwoord</label>
       <input type="password" name="password" id="password" class="border-2 mb-3 rounded">
-      <button type="button" class="bg-primary-500 h-10 rounded text-white my-3" @click="loggedIn">Inloggen</button>
+      <button type="button" class="bg-primary-500 h-10 rounded text-white my-3">Inloggen</button>
     </div>
   </form>
   </div>

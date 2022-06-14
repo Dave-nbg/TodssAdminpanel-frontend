@@ -34,13 +34,16 @@ export class MenuitemService {
         return await response.json();
     }
 
-    async postMenuitem(menuitem) {
+    async postMenuitem(menuitem, image) {
+        console.log(image);
+        let data = JSON.stringify([menuitem, image]);
+        console.log(data);
         const response = await fetch('http://localhost:8080/menuitem', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(menuitem),
+            body: data
         });
 
         return await response.json();
