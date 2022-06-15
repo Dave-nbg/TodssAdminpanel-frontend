@@ -25,7 +25,7 @@ function toggleNav() {
                 <font-awesome-icon icon="user" class="mr-4"/>
                 <span>Gebruikers</span>
             </router-link>
-            <router-link to="/categorieën" class="px-8 py-2 hover:bg-secondary-700">
+            <router-link to="/categorieen" class="px-8 py-2 hover:bg-secondary-700">
                 <font-awesome-icon icon="filter"  class="mr-4"/>
                 <span>Categorieën</span>
             </router-link>
@@ -50,7 +50,7 @@ function toggleNav() {
                 <font-awesome-icon icon="user" class="mr-4"/>
                 <span>Gebruikers</span>
             </router-link>
-            <router-link to="/categorieën" class="px-8 py-2 hover:bg-secondary-700">
+            <router-link to="/categorieen" class="px-8 py-2 hover:bg-secondary-700">
                 <font-awesome-icon icon="filter"  class="mr-4"/>
                 <span>Categorieën</span>
             </router-link>
