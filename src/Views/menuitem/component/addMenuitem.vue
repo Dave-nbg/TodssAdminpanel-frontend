@@ -14,6 +14,7 @@ const menuItemService = new MenuitemService();
 const locationService = new LocationService();
 const allergenen = ref([]);
 const checkedAllergens = ref("");
+let url = ref(null);
 
 onMounted(async () => {
     allergenen.value = ["Selderij", "Ei", "Vis", "Gluten", "Lupine", "Melk", "Weekdieren", "Mosterd", "Noten", "Pinda", "Sesam", "Schaaldieren", "Soja", "Zwaveldioxide"];
@@ -61,23 +62,38 @@ class Feature {
 
 }
 
-async function addMenuitem() {
+async function addMenuitem(e) {
+    e.preventDefault();
+
     const name = document.querySelector('#menuitemName').value;
     const price = document.getElementById("menuItemPrice").value;
     const beschrijving = document.querySelector('#menuitemDescription').value;
 
 
-    const image = document.getElementById("itemImage");
-    console.log(image.files[0]);
     const locationId = document.querySelector('#menuitemLocationId').value.split(' ')[0]
 
     let features = new Feature(beschrijving, checkedAllergens.value)
     let menuitemDTO = new MenuitemDTO(name, price, features, locationId, "");
-    menuItemService.postMenuitem(menuitemDTO, image.files[0]).then(async response => {
-        menuitems.value = await menuItemService.getMenuitems();
-    });
+
+    let reader = new FileReader();
+    const file = document.getElementById("itemImage").files[0];
+
+    reader.readAsText(file);
+
+    reader.onload = function() {
+        let image = reader.result;
+
+        menuItemService.postMenuitem(menuitemDTO, image).then(async response => {
+            menuitems.value = await menuItemService.getMenuitems();
+        });
+    }
 
     setIsOpen(false);
+}
+
+function previewImage(input) {
+    let image = input.target.files[0];
+    url.value = URL.createObjectURL(image);
 }
 
 function test() {
@@ -139,7 +155,7 @@ function test() {
                     <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
 
 
-                    <form id="test" class="mt-8">
+                    <form id="addItemForm" class="mt-8" method="post" @submit="addMenuitem">
                         <div class="flex flex-col mb-10">
                             <label for="menuitemName">Menuitem naam:</label>
                             <input id="menuitemName" name="menuitemName" class="rounded border-2 mt-1 p-2"
@@ -169,7 +185,12 @@ function test() {
                             </fieldset>
 
                             <label for="itemImage">Upload een afbeelding</label>
-                            <input type="file" id="itemImage" name="itemImage" accept="image/png">
+                            <input type="file" id="itemImage" name="itemImage" accept="image/png, .jpg, .jpeg" @change="previewImage">
+                            <div id="imagePreview" class="py-4">
+                                <p v-if="url">Afbeelding preview</p>
+                                <img v-if="url" :src="url" alt="image preview" width="100" height="100"/>
+                            </div>
+
                             <label for="PrepareLocation">Bereidings locatie: </label>
                             <select name="PrepareLocation" id="menuitemLocation">
                                 <option id="menuitemLocationId" v-for="location in locations">
@@ -179,8 +200,8 @@ function test() {
 
 
                         </div>
+                        <button type="submit" class="bg-primary-500 my-2 h-12 rounded p-3">Locatie toevoegen</button>
                     </form>
-                    <button @click="addMenuitem" class="bg-primary-500 my-2 h-12 rounded p-3">Locatie toevoegen</button>
                 </div>
             </DialogPanel>
 
