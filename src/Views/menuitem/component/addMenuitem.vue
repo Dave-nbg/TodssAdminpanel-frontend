@@ -33,22 +33,28 @@ function setIsOpen(value) {
     isOpen.value = value
 }
 
-function openEditMenu(menuItemId) {
-    document.querySelector('#menuItemEdit').style.display = 'block'
-    menuitemIdEdit.value = menuItemId;
+function openEditMenu(menuItem) {
+    document.querySelector('#menuItemEdit').style.display = 'block';
+  document.querySelector('#menuitemDisplay').style.display = 'none';
+  console.log(menuItem)
+    document.querySelector('#menuitemEditName').value = menuItem.name;
+    document.querySelector('#menuitemEditPrice').value = menuItem.price;
+    menuitemIdEdit.value = menuItem.id;
 }
 
 
 function closeEditMenu() {
     document.querySelector('#menuItemEdit').style.display = 'none'
+  document.querySelector('#menuitemDisplay').style.display = 'block';
 }
 
 async function editMenuitem() {
     const menuitemName = document.querySelector('#menuitemEditName').value
+    const menuitemPrice = document.querySelector('#menuitemEditPrice').value
     const locationId = document.querySelector('#locationId').value.split(' ')[0]
     console.log(locationId)
-    if (menuitemName !== "") {
-        await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId);
+    if (menuitemName !== "" && menuitemPrice !== "") {
+        await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId, menuitemPrice);
         menuitems.value = await menuItemService.getMenuitems();
     } else {
         alert("Er is niks ingevuld.")
@@ -122,22 +128,47 @@ function test() {
         </div>
 
         <div v-for="(menuitem, index) in menuitems" :key="index">
-            <div class="hidden" id="menuItemEdit">
-                <label>menuitem naam</label>
+            <div class="hidden border-2 m-2 absolute bg-white" id="menuItemEdit">
+                <label>menuitem naam: </label>
                 <input id="menuitemEditName" class="rounded border-2 m-2">
-                <select>
+                <label>menuitem price: </label>
+                <input id="menuitemEditPrice" type="number" class="rounded border-2 m-2" >
+              <select>
                     <option id="locationId" v-for="location in locations">{{ location.id + " " + location.name }}
                     </option>
                 </select>
+              <br>
+              <fieldset class="border-2 mt-2 p-2 flex flex-col ">
+                <legend>Menuitem eigenschappen:</legend>
+                <br>
+                <label for="menuitemDescription">Beschrijving: </label>
+                <input id="menuitemDescription" name="menuitemDescription"
+                       class="rounded border-2 mt-1 p-2" placeholder="beschrijving">
+                <label for="menuitemAllergens">Allergenen: </label>
+
+
+                <div class="grid-cols-4 grid">
+                  <div v-for="allergen in allergenen">
+                    <div id="allergeenInfo">
+                      <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="test()"/>
+                      <label for="menuitemAllergens">{{ allergen }}</label>
+                    </div>
+                  </div>
+                </div>
+
+
+              </fieldset>
+
                 <button class="bg-primary-500 text-white m-2  rounded" @click="editMenuitem()">Edit locatie</button>
                 <button class="bg-red-700 text-white m-2 w-5" @click="closeEditMenu">X</button>
             </div>
+          <div id="menuitemDisplay" class="mt-1">
             <label class="opmerking-item" for="opmerking">
                 <span class="ml-10">{{ menuitem.name }}</span>
             </label>
-            <input type="button" @click="openEditMenu(menuitem.id)" value="✏️" class="edit">
+            <input type="button" @click="openEditMenu(menuitem)" value="✏️" class="edit">
             <input type="button" value="🗑️" @click="deleteMenuitem(menuitem.id)" class="delete">
-
+        </div>
         </div>
     </main>
 
