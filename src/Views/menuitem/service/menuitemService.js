@@ -36,19 +36,21 @@ export class MenuitemService {
 
     async postMenuitem(menuitem, image) {
 
-        let body = {
-            menuitem,
-            image: image
-        }
+
+        const data = new FormData();
+        data.append('image',image)
+        data.append('price',menuitem.price)
+        data.append('locationId',menuitem.locationId)
+        data.append('features', menuitem.features)
+        data.append('name',menuitem.name)
+
 
         const response = await fetch('http://localhost:8080/menuitem', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            body: body
+            body: data
         });
 
         return await response.json();
     }
+
 }

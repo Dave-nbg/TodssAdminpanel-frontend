@@ -23,6 +23,12 @@ onMounted(async () => {
 
 })
 
+class Feature {
+  constructor(beschrijving, allergenen) {
+    this.beschrijving = beschrijving;
+    this.allergenen = allergenen;
+  }}
+
 function setIsOpen(value) {
     isOpen.value = value
 }
@@ -54,13 +60,7 @@ async function deleteMenuitem(menuitemId) {
     menuitems.value = await menuItemService.getMenuitems();
 }
 
-class Feature {
-    constructor(beschrijving, allergenen) {
-        this.beschrijving = beschrijving;
-        this.allergenen = allergenen;
-    }
 
-}
 
 async function addMenuitem(e) {
     e.preventDefault();
@@ -72,21 +72,18 @@ async function addMenuitem(e) {
 
     const locationId = document.querySelector('#menuitemLocationId').value.split(' ')[0]
 
-    let features = new Feature(beschrijving, checkedAllergens.value)
+    let features = "Beschrijving: " + beschrijving + "; Allergenen: " + checkedAllergens.value
     let menuitemDTO = new MenuitemDTO(name, price, features, locationId, "");
 
-    let reader = new FileReader();
+
     const file = document.getElementById("itemImage").files[0];
 
-    reader.readAsText(file);
 
-    reader.onload = function() {
-        let image = reader.result;
 
-        menuItemService.postMenuitem(menuitemDTO, image).then(async response => {
+        menuItemService.postMenuitem(menuitemDTO, file).then(async response => {
             menuitems.value = await menuItemService.getMenuitems();
         });
-    }
+
 
     setIsOpen(false);
 }
