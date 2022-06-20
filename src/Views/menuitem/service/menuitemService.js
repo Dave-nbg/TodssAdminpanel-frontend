@@ -10,8 +10,8 @@ export class MenuitemService {
         return responseJson.map(menuitem => new Menuitem(menuitem.name, menuitem.id, menuitem.pictureURI, menuitem.price));
     }
 
-    async editMenuItem(id, menuitemName, locationId, menuitemPrice){
-        const data = { id: id, name: menuitemName, locationId: locationId, price: menuitemPrice};
+    async editMenuItem(id, menuitemName, locationId, menuitemPrice, features){
+        const data = { id: id, name: menuitemName, locationId: locationId, price: menuitemPrice, features: features};
         const response = await fetch('http://localhost:8080/menuitem', {
             method: 'PUT',
             headers: {

@@ -8,6 +8,7 @@ import {MenuitemDTO} from "../domain/menuitemDTO";
 
 const menuitemIdEdit = ref(0);
 const isOpen = ref(false);
+let isEditOpen = ref(false);
 const menuitems = ref([]);
 const locations = ref([]);
 const menuItemService = new MenuitemService();
@@ -15,6 +16,7 @@ const locationService = new LocationService();
 const allergenen = ref([]);
 const checkedAllergens = ref("");
 let url = ref(null);
+
 
 onMounted(async () => {
     allergenen.value = ["Selderij", "Ei", "Vis", "Gluten", "Lupine", "Melk", "Weekdieren", "Mosterd", "Noten", "Pinda", "Sesam", "Schaaldieren", "Soja", "Zwaveldioxide"];
@@ -34,18 +36,8 @@ function setIsOpen(value) {
 }
 
 function openEditMenu(menuItem) {
-    document.querySelector('#menuItemEdit').style.display = 'block';
-  document.querySelector('#menuitemDisplay').style.display = 'none';
-  console.log(menuItem)
-    document.querySelector('#menuitemEditName').value = menuItem.name;
-    document.querySelector('#menuitemEditPrice').value = menuItem.price;
-    menuitemIdEdit.value = menuItem.id;
-}
-
-
-function closeEditMenu() {
-    document.querySelector('#menuItemEdit').style.display = 'none'
-  document.querySelector('#menuitemDisplay').style.display = 'block';
+  isEditOpen.value = !isEditOpen.value;
+  menuitemIdEdit.value = menuItem.id;
 }
 
 async function editMenuitem() {
@@ -128,11 +120,16 @@ function test() {
         </div>
 
         <div v-for="(menuitem, index) in menuitems" :key="index">
-            <div class="hidden border-2 m-2 absolute bg-white" id="menuItemEdit">
+          <Dialog :open="isEditOpen" @close="" class="relative z-50">
+            <div class="fixed inset-0 bg-black/70" aria-hidden="true"></div>
+            <div class="fixed flex items-center inset-0 justify-center">
+              <DialogPanel class="bg-white rounded">
+                <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr " @click="openEditMenu">X</button>
+            <div class=" border-2 mt-10 p-2 bg-white m-3" id="menuItemEdit">
                 <label>menuitem naam: </label>
-                <input id="menuitemEditName" class="rounded border-2 m-2">
+                <input id="menuitemEditName" class="rounded border-2 m-2" :value="menuitem.name">
                 <label>menuitem price: </label>
-                <input id="menuitemEditPrice" type="number" class="rounded border-2 m-2" >
+                <input id="menuitemEditPrice" type="number" class="rounded border-2 m-2" :value="menuitem.price" >
               <select>
                     <option id="locationId" v-for="location in locations">{{ location.id + " " + location.name }}
                     </option>
@@ -158,10 +155,15 @@ function test() {
 
 
               </fieldset>
-
                 <button class="bg-primary-500 text-white m-2  rounded" @click="editMenuitem()">Edit locatie</button>
-                <button class="bg-red-700 text-white m-2 w-5" @click="closeEditMenu">X</button>
+
             </div>
+              </DialogPanel>
+            </div>
+          </Dialog>
+
+
+
           <div id="menuitemDisplay" class="mt-1">
             <label class="opmerking-item" for="opmerking">
                 <span class="ml-10">{{ menuitem.name }}</span>
