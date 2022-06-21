@@ -15,6 +15,7 @@ const menuItemService = new MenuitemService();
 const locationService = new LocationService();
 const allergenen = ref([]);
 const checkedAllergens = ref("");
+const checkedEditedAllergens = ref("");
 let url = ref(null);
 
 
@@ -41,12 +42,17 @@ function openEditMenu(menuItem) {
 }
 
 async function editMenuitem() {
+    console.log("test")
     const menuitemName = document.querySelector('#menuitemEditName').value
     const menuitemPrice = document.querySelector('#menuitemEditPrice').value
     const locationId = document.querySelector('#locationId').value.split(' ')[0]
-    console.log(locationId)
+        //beschrijving is facked
+    const beschrijving = document.querySelector('#editMenuitemDescription').value;
+    console.log(document.querySelector('#editMenuitemDescription'))
+    let features = "Beschrijving: " + beschrijving + "; Allergenen: " + checkedEditedAllergens.value
     if (menuitemName !== "" && menuitemPrice !== "") {
-        await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId, menuitemPrice);
+
+        await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId, menuitemPrice, features);
         menuitems.value = await menuItemService.getMenuitems();
     } else {
         alert("Er is niks ingevuld.")
@@ -66,7 +72,7 @@ async function addMenuitem(e) {
     const name = document.querySelector('#menuitemName').value;
     const price = document.getElementById("menuItemPrice").value;
     const beschrijving = document.querySelector('#menuitemDescription').value;
-
+    console.log(beschrijving)
 
     const locationId = document.querySelector('#menuitemLocationId').value.split(' ')[0]
 
@@ -91,7 +97,7 @@ function previewImage(input) {
     url.value = URL.createObjectURL(image);
 }
 
-function test() {
+function getPostAllergens() {
     var allergens = "";
     for (let i = 0; i < document.querySelectorAll("#allergeenInfo").length; i++) {
         let item = document.querySelectorAll("#allergeenInfo")[i];
@@ -104,9 +110,22 @@ function test() {
         }
     }
     checkedAllergens.value = allergens
-    console.log(checkedAllergens.value);
-    // console.log(document.querySelectorAll("input[type='checkbox']"));
+}
 
+function getEditedAllergens(){
+  var allergens = "";
+  for (let i = 0; i < document.querySelectorAll("#editAllergeenInfo").length; i++) {
+    let item = document.querySelectorAll("#editAllergeenInfo")[i];
+    if (item.children[0].checked) {
+      if (allergens !== "") {
+        allergens += ", " + item.children[1].innerHTML
+      } else {
+        allergens += item.children[1].innerHTML;
+      }
+    }
+  }
+  checkedEditedAllergens.value = allergens
+  console.log(checkedEditedAllergens.value)
 }
 
 </script>
@@ -139,15 +158,15 @@ function test() {
                 <legend>Menuitem eigenschappen:</legend>
                 <br>
                 <label for="menuitemDescription">Beschrijving: </label>
-                <input id="menuitemDescription" name="menuitemDescription"
+                <input id="editMenuitemDescription" name="editMenuitemDescription"
                        class="rounded border-2 mt-1 p-2" placeholder="beschrijving">
                 <label for="menuitemAllergens">Allergenen: </label>
 
 
                 <div class="grid-cols-4 grid">
                   <div v-for="allergen in allergenen">
-                    <div id="allergeenInfo">
-                      <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="test()"/>
+                    <div id="editAllergeenInfo">
+                      <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="getEditedAllergens()"/>
                       <label for="menuitemAllergens">{{ allergen }}</label>
                     </div>
                   </div>
@@ -205,7 +224,7 @@ function test() {
                                 <div class="grid-cols-4 grid">
                                     <div v-for="allergen in allergenen">
                                         <div id="allergeenInfo">
-                                            <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="test()"/>
+                                            <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="getPostAllergens()"/>
                                             <label for="menuitemAllergens">{{ allergen }}</label>
                                         </div>
                                     </div>

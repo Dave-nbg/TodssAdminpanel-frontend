@@ -1,14 +1,21 @@
 import {Category} from "../domain/Category";
 
 export class CategoryService {
-    async createCategory(data) {
-        return (await fetch("http://localhost:8080/category", {
+    async createCategory(category,image) {
+        const data = new FormData();
+        data.append('name',category.name);
+        data.append('description',category.description);
+        data.append('image',image)
+
+        console.log(data.get('image'))
+        console.log(data.get('description'))
+        console.log(data.get('name'))
+
+        const response = (await fetch("http://localhost:8080/category", {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: data
-        })).json();
+        }))
+        return await response.json()
     }
 
     async getCategories() {

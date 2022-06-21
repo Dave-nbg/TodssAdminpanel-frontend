@@ -12,6 +12,7 @@ export class MenuitemService {
 
     async editMenuItem(id, menuitemName, locationId, menuitemPrice, features){
         const data = { id: id, name: menuitemName, locationId: locationId, price: menuitemPrice, features: features};
+        console.log(features)
         const response = await fetch('http://localhost:8080/menuitem', {
             method: 'PUT',
             headers: {
@@ -45,12 +46,12 @@ export class MenuitemService {
         data.append('name',menuitem.name)
 
 
-        const response = await fetch('http://localhost:8080/menuitem', {
-            method: 'POST',
-            body: data
-        });
-
-        return await response.json();
+        // const response = await fetch('http://localhost:8080/menuitem', {
+        //     method: 'POST',
+        //     body: data
+        // });
+        //
+        // return await response.json();
     }
 
 }
