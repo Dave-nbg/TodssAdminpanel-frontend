@@ -36,20 +36,23 @@ function setIsOpen(value) {
     isOpen.value = value
 }
 
-function openEditMenu(menuItem) {
+async function openEditMenu(menuItem) {
+
   isEditOpen.value = !isEditOpen.value;
   menuitemIdEdit.value = menuItem.id;
+  const currentMenuItem = await menuItemService.getMenuitemById(menuItem.id)
 }
 
-async function editMenuitem() {
-    console.log("test")
-    const menuitemName = document.querySelector('#menuitemEditName').value
-    const menuitemPrice = document.querySelector('#menuitemEditPrice').value
-    const locationId = document.querySelector('#locationId').value.split(' ')[0]
-        //beschrijving is facked
-    const beschrijving = document.querySelector('#editMenuitemDescription').value;
-    console.log(document.querySelector('#editMenuitemDescription'))
-    let features = "Beschrijving: " + beschrijving + "; Allergenen: " + checkedEditedAllergens.value
+async function editMenuitem(e) {
+  console.log(e)
+  console.log(e.currentTarget)
+  e.preventDefault();
+  const menuitemName = e.currentTarget[0].value
+  const menuitemPrice = e.currentTarget[1].value
+  const locationId = e.currentTarget[2].value.split(" ")[0]
+  const beschrijving = e.currentTarget[4].value
+  console.log()
+  let features = "Beschrijving: " + beschrijving + "; Allergenen: " + checkedEditedAllergens.value
     if (menuitemName !== "" && menuitemPrice !== "") {
 
         await menuItemService.editMenuItem(menuitemIdEdit.value, menuitemName, locationId, menuitemPrice, features);
@@ -145,10 +148,11 @@ function getEditedAllergens(){
               <DialogPanel class="bg-white rounded">
                 <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr " @click="openEditMenu">X</button>
             <div class=" border-2 mt-10 p-2 bg-white m-3" id="menuItemEdit">
+              <form id="addItemForm" class="mt-8" method="post" @submit="editMenuitem">
                 <label>menuitem naam: </label>
-                <input id="menuitemEditName" class="rounded border-2 m-2" :value="menuitem.name">
+                <input id="menuitemEditName" placeholder="menuItemEditName" class="rounded border-2 m-2" name="menuItemEditName">
                 <label>menuitem price: </label>
-                <input id="menuitemEditPrice" type="number" class="rounded border-2 m-2" :value="menuitem.price" >
+                <input id="menuitemEditPrice" type="number" class="rounded border-2 m-2" >
               <select>
                     <option id="locationId" v-for="location in locations">{{ location.id + " " + location.name }}
                     </option>
@@ -174,8 +178,8 @@ function getEditedAllergens(){
 
 
               </fieldset>
-                <button class="bg-primary-500 text-white m-2  rounded" @click="editMenuitem()">Edit locatie</button>
-
+                <button type="submit" class="bg-primary-500 text-white m-2  rounded">Edit locatie</button>
+              </form>
             </div>
               </DialogPanel>
             </div>

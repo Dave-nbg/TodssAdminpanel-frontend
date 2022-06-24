@@ -7,10 +7,6 @@ export class CategoryService {
         data.append('description',category.description);
         data.append('image',image)
 
-        console.log(data.get('image'))
-        console.log(data.get('description'))
-        console.log(data.get('name'))
-
         const response = (await fetch("http://localhost:8080/category", {
             method: 'POST',
             body: data

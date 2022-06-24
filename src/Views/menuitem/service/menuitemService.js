@@ -10,9 +10,16 @@ export class MenuitemService {
         return responseJson.map(menuitem => new Menuitem(menuitem.name, menuitem.id, menuitem.pictureURI, menuitem.price));
     }
 
+    async getMenuitemById(id) {
+        const response = await fetch("http://localhost:8080/menuitem/"+id);
+        const responseJson = await response.json();
+        return new Menuitem(responseJson.name, responseJson.id, responseJson.pictureURI, responseJson.price, responseJson.features);
+    }
+
+
     async editMenuItem(id, menuitemName, locationId, menuitemPrice, features){
-        const data = { id: id, name: menuitemName, locationId: locationId, price: menuitemPrice, features: features};
-        console.log(features)
+        const data = { id: id, name: menuitemName, locationId: locationId, price: menuitemPrice, features: features, published: true};
+        console.log(data)
         const response = await fetch('http://localhost:8080/menuitem', {
             method: 'PUT',
             headers: {
@@ -46,12 +53,12 @@ export class MenuitemService {
         data.append('name',menuitem.name)
 
 
-        // const response = await fetch('http://localhost:8080/menuitem', {
-        //     method: 'POST',
-        //     body: data
-        // });
-        //
-        // return await response.json();
+        const response = await fetch('http://localhost:8080/menuitem', {
+            method: 'POST',
+            body: data
+        });
+
+        return await response.json();
     }
 
 }
