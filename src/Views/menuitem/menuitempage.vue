@@ -24,9 +24,6 @@ onMounted(async () => {
     </nav>
     <main class="grid-in-main grid">
       <h1 class="m-auto mt-5 font-bold text-2xl">Menu-items</h1>
-      <div class="flex m-10">
-        <Searchbar :items="items" class="m-auto"></Searchbar>
-      </div>
       <add-menuitem></add-menuitem>
     </main>
 

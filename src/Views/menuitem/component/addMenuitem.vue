@@ -44,8 +44,6 @@ async function openEditMenu(menuItem) {
 }
 
 async function editMenuitem(e) {
-  console.log(e)
-  console.log(e.currentTarget)
   e.preventDefault();
   const menuitemName = e.currentTarget[0].value
   const menuitemPrice = e.currentTarget[1].value
