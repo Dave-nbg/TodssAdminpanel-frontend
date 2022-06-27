@@ -39,14 +39,18 @@ function closeMenu(){
   document.querySelector("#aanmaakButton").style.display = "block"
 }
 
-function print(){
-  var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-  mywindow.document.write(document.querySelector("#plaatje").innerHTML);
-  mywindow.document.close();
-  mywindow.focus();
+function print(id){
+  let image;
+  document.querySelectorAll("img").forEach(item => {
+    if(id === item.id){
+      image = item
+    }
+  })
 
-  mywindow.print();
-  mywindow.close();
+
+  const win = window.open('');
+  win.document.write('<img src="' + image.src + '" onload="window.print();window.close()" />');
+  win.focus();
 
   return true;
 }
@@ -75,9 +79,9 @@ function print(){
     <button @click="openMenu" id="aanmaakButton" class="w-40 m-auto rounded bg-primary-500 text-white">maak Qr aan</button>
     <div id="plaatje" v-for="qr in images">
     <p>Tafelnummer: {{qr.tableNumber}} <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete"></p>
-    <img  :src="qr.url" alt="qr code plaatje"  class="rounded h-20 w-20 ">
-
+    <img  :src="qr.url" alt="qr code plaatje" :id="qr.tableNumber+qr.uuid" class="rounded h-20 w-20 ">
+    <button @click="print(qr.tableNumber+qr.uuid)">print image</button>
     </div>
-  <button @click="print">print image</button>
+
   </div>
 </template>
