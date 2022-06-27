@@ -18,4 +18,16 @@ export class qrcodeService {
         const response = await fetch("http://localhost:8080/qr");
         return await response.json();
     }
+
+    async deleteQr(uuid){
+        const response = await fetch('http://localhost:8080/qr/'+uuid, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+
+    }
+
 }

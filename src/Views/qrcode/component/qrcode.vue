@@ -7,25 +7,25 @@ const QrcodeService = new qrcodeService();
 const image = ref("test");
 const images = ref([]);
 
-onMounted(async () => {
+onMounted(getAllQrs())
+
+async function getAllQrs(){
   const items = await QrcodeService.getAllQrs();
   let uuid = [];
   items.map(item => {uuid.push({uuid: item.uuid, tafelNummer: item.tableNumber})})
   const r = []
-  console.log(uuid)
   uuid.map(async a => {
-    r.push(images.value.push({url : "data:image/png;base64," + await QrcodeService.getQr(a.uuid), tableNumber:a.tafelNummer}))
+    r.push(images.value.push({url : "data:image/png;base64," + await QrcodeService.getQr(a.uuid), tableNumber:a.tafelNummer, uuid:a.uuid}))
   });
-
-
-})
-
+}
 
 async function createQr(){
 
   const uuid = await QrcodeService.createQr(document.querySelector("#tablenumber").value)
   const r = await QrcodeService.getQr(uuid.uuid);
   image.value= "data:image/png;base64," +  r;
+  images.value = []
+  getAllQrs();
 
 }
 
@@ -51,6 +51,13 @@ function print(){
   return true;
 }
 
+ async function deleteQr(uuid){
+
+  await QrcodeService.deleteQr(uuid)
+  images.value = []
+  await getAllQrs()
+}
+
 
 </script>
 
@@ -67,8 +74,9 @@ function print(){
   </div>
     <button @click="openMenu" id="aanmaakButton" class="w-40 m-auto rounded bg-primary-500 text-white">maak Qr aan</button>
     <div id="plaatje" v-for="qr in images">
-      <p>Tafelnummer: {{qr.tableNumber}}</p>
-  <img  :src="qr.url" alt="qr code plaatje"  class="rounded h-20 w-20 ">
+    <p>Tafelnummer: {{qr.tableNumber}} <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete"></p>
+    <img  :src="qr.url" alt="qr code plaatje"  class="rounded h-20 w-20 ">
+
     </div>
   <button @click="print">print image</button>
   </div>
