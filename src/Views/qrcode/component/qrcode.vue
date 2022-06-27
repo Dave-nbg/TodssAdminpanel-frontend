@@ -68,19 +68,19 @@ function print(id){
 <template>
   <div class="grid m-5">
   <div id="addTableNumber" class="hidden m-auto">
-  <label>tafel nummer: </label>
-  <input id="tablenumber" class="rounded mt-2 border-2">
+  <label class="py-0.5">tafel nummer: </label>
+  <input id="tablenumber" class="rounded mt-2 border-2 py-0.5">
 
-  <button @click="createQr" class="mb-4 bg-primary-500 ml-2 text-white rounded">Upload qr</button>
-    <button class="ml-2 bg-red-700 text-white content-center rounded"
+  <button @click="createQr" class="mb-4 bg-primary-500 ml-2 text-white rounded px-1.5 py-0.5">Upload qr</button>
+    <button class="ml-2 w-6 bg-red-700 text-white content-center rounded py-0.5"
             @click="closeMenu()">X
     </button>
   </div>
     <button @click="openMenu" id="aanmaakButton" class="w-40 m-auto rounded bg-primary-500 text-white">maak Qr aan</button>
     <div id="plaatje" v-for="qr in images">
     <p>Tafelnummer: {{qr.tableNumber}}
-    <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete mx-1.5">
     <button @click="print(qr.tableNumber+qr.uuid)" class="mx-1.5">🖨️</button>
+    <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete mx-1.5">
     </p>
 
     <img  :src="qr.url" alt="qr code plaatje" :id="qr.tableNumber+qr.uuid" class="rounded h-20 w-20 ">
