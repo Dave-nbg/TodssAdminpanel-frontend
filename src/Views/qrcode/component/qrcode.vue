@@ -66,8 +66,8 @@ function print(id){
 </script>
 
 <template>
-  <div class="grid">
-  <div id="addTableNumber" class="hidden">
+  <div class="grid m-5">
+  <div id="addTableNumber" class="hidden m-auto">
   <label>tafel nummer: </label>
   <input id="tablenumber" class="rounded mt-2 border-2">
 
@@ -78,9 +78,13 @@ function print(id){
   </div>
     <button @click="openMenu" id="aanmaakButton" class="w-40 m-auto rounded bg-primary-500 text-white">maak Qr aan</button>
     <div id="plaatje" v-for="qr in images">
-    <p>Tafelnummer: {{qr.tableNumber}} <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete"></p>
+    <p>Tafelnummer: {{qr.tableNumber}}
+    <input type="button" value="🗑️" @click="deleteQr(qr.uuid)" class="delete mx-1.5">
+    <button @click="print(qr.tableNumber+qr.uuid)" class="mx-1.5">🖨️</button>
+    </p>
+
     <img  :src="qr.url" alt="qr code plaatje" :id="qr.tableNumber+qr.uuid" class="rounded h-20 w-20 ">
-    <button @click="print(qr.tableNumber+qr.uuid)">print image</button>
+
     </div>
 
   </div>
