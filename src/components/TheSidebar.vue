@@ -37,6 +37,9 @@ function toggleNav() {
                 <font-awesome-icon icon="burger" class="mr-4"/>
                 <span>Menu Items</span>
             </router-link>
+          <router-link to="/qrcode">
+
+          </router-link>
         </div>
     </nav>
 
