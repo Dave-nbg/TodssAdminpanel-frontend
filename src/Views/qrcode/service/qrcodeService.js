@@ -13,4 +13,9 @@ export class qrcodeService {
         const response = await fetch("http://localhost:8080/qr/"+uuid);
         return await response.text();
     }
+
+    async getAllQrs(){
+        const response = await fetch("http://localhost:8080/qr");
+        return await response.json();
+    }
 }

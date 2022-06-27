@@ -1,10 +1,10 @@
 <script setup>
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faFilter, faLocationDot, faBurger, faNavicon} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faFilter, faLocationDot, faBurger, faNavicon, faQrcode} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {reactive, ref} from "vue";
 
-library.add(faUser, faFilter, faLocationDot, faBurger, faNavicon);
+library.add(faUser, faFilter, faLocationDot, faBurger, faNavicon, faQrcode);
 
 
 let navIsOpen = ref(false);
@@ -38,7 +38,8 @@ function toggleNav() {
                 <span>Menu Items</span>
             </router-link>
           <router-link to="/qrcode">
-
+            <font-awesome-icon icon="fa-solid fa-qrcode" />
+            <span>Qr code</span>
           </router-link>
         </div>
     </nav>
@@ -65,6 +66,10 @@ function toggleNav() {
                 <font-awesome-icon icon="burger" class="mr-4"/>
                 <span>Menu Items</span>
             </router-link>
+          <router-link to="/qrcode" class="px-8 py-2 hover:bg-secondary-700">
+            <font-awesome-icon icon="qrcode" class="mr-4" />
+            <span>Qr code</span>
+          </router-link>
         </div>
     </nav>
 </template>
