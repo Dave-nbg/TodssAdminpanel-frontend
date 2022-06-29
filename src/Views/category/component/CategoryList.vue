@@ -10,14 +10,12 @@ const props = defineProps({
         <table>
             <tr>
                 <th>Naam</th>
-                <th>Omschrijving</th>
                 <th></th>
                 <th></th>
             </tr>
 
             <tr v-for="(category, index) in categories" :key="index">
                 <td>{{ category.name }}</td>
-                <td>{{ category.description }}</td>
                 <td>
                     <input type="button" @click="$emit('openEditCategory', category)" value="✏️" class="edit cursor-pointer hover:opacity-60">
                 </td>

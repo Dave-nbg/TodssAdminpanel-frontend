@@ -30,6 +30,50 @@ export class CategoryService {
         });
 
         return await response.json();
+    }
 
+    async getCategoryDetails(id) {
+        const response = await fetch('http://localhost:8080/category/' + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        return await response.json();
+    }
+
+    async updateCategory(category) {
+        const data = {
+            id: category.id,
+            name: category.name,
+            description: category.description
+        }
+
+        const response = (await fetch("http://localhost:8080/category", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }))
+
+        return await response.json()
+    }
+
+    async updateCategoryOrder(id, upper, lower) {
+        const data = {
+            upperId: upper,
+            lowerId: lower
+        }
+        const response = (await fetch("http://localhost:8080/category", {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }))
+
+        return await response.json();
     }
 }

@@ -5,21 +5,31 @@ import CategoryCreateForm from "../category/component/CategoryCreateForm.vue";
 import {CategoryService} from "./service/CategoryService";
 import {Dialog, DialogPanel, DialogTitle} from '@headlessui/vue';
 import {ref, onMounted} from "vue";
+import CategoryEditForm from "./component/CategoryEditForm.vue";
 
 const categoryService = new CategoryService();
 const categories = ref([]);
-const isOpen = ref(false);
+const createIsOpen = ref(false);
+const editIsOpen = ref(false);
+let editCategory =ref( null);
 
 onMounted(async () => {
     categories.value = await categoryService.getCategories();
 });
 
-function setIsOpen(value) {
-    isOpen.value = value
+function setCreateOpen(value) {
+    createIsOpen.value = value
 }
 
-function openEditCategory(category) {
-    console.log(category);
+function setEditOpen(value) {
+    editIsOpen.value = value;
+}
+
+async function openEditCategory(category) {
+    categoryService.getCategoryDetails(category.id).then(cat => {
+        editCategory.value = cat;
+    });
+    editIsOpen.value = true;
 }
 
 async function deleteCategory(id) {
@@ -38,20 +48,37 @@ async function deleteCategory(id) {
             <h1 class="m-auto mt-5 font-bold text-2xl">Categorieën</h1>
 
             <div>
-                <button @click="setIsOpen(true)" class="bg-primary-500 text-white float-right h-10 p-2 mr-2 rounded">
+                <button @click="setCreateOpen(true)" class="bg-primary-500 text-white float-right h-10 p-2 mr-2 rounded">
                     Categorie Toevoegen
                 </button>
             </div>
 
-            <Dialog :open="isOpen" @close="setIsOpen" class="relative z-50">
+            <Dialog :open="editIsOpen" @close="setEditOpen(false)" class="relative z-50">
                 <div class="fixed inset-0 bg-black/70" aria-hidden="true"></div>
                 <div class="fixed flex items-center inset-0 justify-center">
                     <DialogPanel class="bg-white rounded">
                         <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr"
-                                @click="setIsOpen(false)">X
+                                @click="setCreateOpen(false)">X
                         </button>
                         <div class="p-8">
                             <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
+
+                            <CategoryEditForm :category="editCategory"></CategoryEditForm>
+                        </div>
+                    </DialogPanel>
+
+                </div>
+            </Dialog>
+
+            <Dialog :open="createIsOpen" @close="setCreateOpen" class="relative z-50">
+                <div class="fixed inset-0 bg-black/70" aria-hidden="true"></div>
+                <div class="fixed flex items-center inset-0 justify-center">
+                    <DialogPanel class="bg-white rounded">
+                        <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr"
+                                @click="setCreateOpen(false)">X
+                        </button>
+                        <div class="p-8">
+                            <DialogTitle class="text-lg ">Categorie aanpassen</DialogTitle>
 
                             <CategoryCreateForm></CategoryCreateForm>
                         </div>
@@ -59,7 +86,7 @@ async function deleteCategory(id) {
 
                 </div>
             </Dialog>
-            <CategoryList :categories="categories" @deleteCategory="deleteCategory"></CategoryList>
+            <CategoryList :categories="categories" @deleteCategory="deleteCategory" @openEditCategory="openEditCategory"></CategoryList>
         </main>
 
     </div>
