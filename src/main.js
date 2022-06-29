@@ -5,6 +5,7 @@ import UserPage from './Views/users/userpage.vue';
 import CategoryPage from './Views/category/categorypage.vue';
 import LocationPage from './Views/location/locationpage.vue';
 import MenuItemPage from './Views/menuitem/menuitempage.vue';
+import qrcodePage from './Views/qrcode/qrcodePage.vue';
 import {createRouter, createWebHistory} from "vue-router";
 import './main.css'
 
@@ -14,9 +15,10 @@ const router = createRouter({
         { path: '/', component: LoginPage },
         { path: '/inlog', component: LoginPage},
         { path: '/gebruikers', component: UserPage},
-        { path: '/categorieën', component: CategoryPage},
+        { path: '/categorieen', component: CategoryPage},
         { path: '/locaties', component: LocationPage},
-        { path: '/menuitems', component: MenuItemPage}
+        { path: '/menuitems', component: MenuItemPage},
+        { path: '/qrcode', component: qrcodePage}
     ],
 })
 
