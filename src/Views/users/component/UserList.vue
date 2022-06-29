@@ -6,11 +6,6 @@ const userService = new UserService();
 const props = defineProps({
     users: Array
 });
-
-async function deleteUser(user) {
-    await userService.deleteUser(user);
-}
-
 </script>
 
 <template>
@@ -22,7 +17,7 @@ async function deleteUser(user) {
             </tr>
             <tr v-for="(user, index) in users" :key="index" class="p-2 border my-2">
                 <td class="p-2">{{ user.username }}</td>
-                <td class="p-2 cursor-pointer" @click="deleteUser(user)">🗑</td>
+                <td class="p-2 cursor-pointer" @click="$emit('deleteUser', user)">🗑</td>
             </tr>
         </table>
     </div>

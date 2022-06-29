@@ -11,14 +11,13 @@ export class UserService {
         return responseJson.map(user => new User(user.username));
     }
 
-    async deleteUser(user) {
-        let data = user.username;
+    async deleteUser(username) {
         const response = await fetch(this.base_url + "/user", {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(username)
         });
 
         return await response.json();

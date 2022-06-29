@@ -29,6 +29,13 @@ async function addUser(e) {
     await userService.createUser(user);
     users.value = await userService.getUsers();
 
+    setIsOpen(false);
+
+}
+
+async function deleteUser(e) {
+    await userService.deleteUser(e.username);
+    users.value = await userService.getUsers();
 }
 </script>
 
@@ -79,7 +86,7 @@ async function addUser(e) {
             </Dialog>
 
 
-            <UserList :users="users"></UserList>
+            <UserList :users="users" @deleteUser="deleteUser"></UserList>
         </main>
     </div>
 </template>
