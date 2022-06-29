@@ -8,8 +8,6 @@ export class UserService {
         const response = await fetch("http://localhost:8080/user");
         const responseJson = await response.json();
 
-        console.log(responseJson);
-
         return responseJson.map(user => new User(user.username));
     }
 
