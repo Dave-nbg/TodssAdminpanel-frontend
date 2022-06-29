@@ -14,7 +14,7 @@ const props = defineProps({
                 <th></th>
             </tr>
 
-            <tr v-for="(category, index) in categories" :key="index">
+            <tr v-for="(category, index) in categories" :key="index" class="p-2 border my-2">
                 <td>{{ category.name }}</td>
                 <td>
                     <input type="button" @click="$emit('openEditCategory', category)" value="✏️" class="edit cursor-pointer hover:opacity-60">
