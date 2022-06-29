@@ -17,7 +17,19 @@ export class CategoryService {
     async getCategories() {
         const response = await fetch("http://localhost:8080/category");
         const responseJson = await response.json();
-        console.log(responseJson);
-        return responseJson.map(category => new Category(category.name, category.description));
+
+        return responseJson.map(category => new Category(category.id, category.name, category.description));
+    }
+
+    async deleteCategory(id) {
+        const response = await fetch('http://localhost:8080/category/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        return await response.json();
+
     }
 }

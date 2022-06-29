@@ -1,5 +1,4 @@
 <script setup>
-import {onMounted, ref} from "vue";
 import {UserService} from "../service/UserService";
 
 const userService = new UserService();

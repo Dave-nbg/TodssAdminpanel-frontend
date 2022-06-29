@@ -1,23 +1,30 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {CategoryService} from "../service/CategoryService";
-import {Category} from "../domain/Category";
-
-const categoryService = new CategoryService();
-const categories = ref([]);
-
-onMounted(async () => {
-    categories.value = await categoryService.getCategories();
-    console.log(categories.value);
+const props = defineProps({
+    categories: Array
 })
 </script>
 
 <template>
 
-    <div v-for="(category, index) in categories" :key="index">
-        <ul>
-            <li>{{ category.name }}</li>
-            <li>{{ category.description }}</li>
-        </ul>
+    <div class="m-8">
+        <table>
+            <tr>
+                <th>Naam</th>
+                <th>Omschrijving</th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr v-for="(category, index) in categories" :key="index">
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
+                <td>
+                    <input type="button" @click="$emit('openEditCategory', category)" value="✏️" class="edit cursor-pointer hover:opacity-60">
+                </td>
+                <td>
+                    <input type="button" @click="$emit('deleteCategory', category.id)" value="🗑️" class="delete cursor-pointer hover:opacity-60">
+                </td>
+            </tr>
+        </table>
     </div>
-</template>
+</template>>

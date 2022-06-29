@@ -1,6 +1,8 @@
 export class Category{
-    constructor(name, description) {
+    constructor(id, name, description, pictureURI) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.pictureURI = pictureURI;
     }
 }

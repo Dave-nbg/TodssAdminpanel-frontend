@@ -2,15 +2,31 @@
 import TheSidebar from "../../components/TheSidebar.vue";
 import CategoryList from "../category/component/CategoryList.vue";
 import CategoryCreateForm from "../category/component/CategoryCreateForm.vue";
+import {CategoryService} from "./service/CategoryService";
 import {Dialog, DialogPanel, DialogTitle} from '@headlessui/vue';
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 
-
+const categoryService = new CategoryService();
+const categories = ref([]);
 const isOpen = ref(false);
+
+onMounted(async () => {
+    categories.value = await categoryService.getCategories();
+});
 
 function setIsOpen(value) {
     isOpen.value = value
 }
+
+function openEditCategory(category) {
+    console.log(category);
+}
+
+async function deleteCategory(id) {
+    await categoryService.deleteCategory(id);
+    categories.value = await categoryService.getCategories();
+}
+
 </script>
 
 <template>
@@ -43,7 +59,7 @@ function setIsOpen(value) {
 
                 </div>
             </Dialog>
-            <CategoryList></CategoryList>
+            <CategoryList :categories="categories" @deleteCategory="deleteCategory"></CategoryList>
         </main>
 
     </div>
