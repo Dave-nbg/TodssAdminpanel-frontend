@@ -3,15 +3,12 @@ import {onMounted, ref} from "vue";
 import {UserService} from "../service/UserService";
 
 const userService = new UserService();
-const users = ref([]);
-
-onMounted(async () => {
-    users.value = await userService.getUsers();
+const props = defineProps({
+    users: Array
 });
 
 async function deleteUser(user) {
     await userService.deleteUser(user);
-    users.value = await userService.getUsers();
 }
 
 </script>
@@ -25,7 +22,7 @@ async function deleteUser(user) {
             </tr>
             <tr v-for="(user, index) in users" :key="index" class="p-2 border my-2">
                 <td class="p-2">{{ user.username }}</td>
-                <td class="p-2" @click="deleteUser(user)">🗑</td>
+                <td class="p-2 cursor-pointer" @click="deleteUser(user)">🗑</td>
             </tr>
         </table>
     </div>

@@ -25,4 +25,19 @@ export class UserService {
 
         return await response.json();
     }
+
+    async createUser(user) {
+
+        const data = { username: user.username, password: user.password };
+
+        const response = await fetch(this.base_url + "/register", {
+           method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+           body: JSON.stringify(data)
+        });
+
+        return await response.json();
+    }
 }
