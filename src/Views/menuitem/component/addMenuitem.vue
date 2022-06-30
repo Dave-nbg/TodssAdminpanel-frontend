@@ -61,6 +61,7 @@ async function editMenuitem(e) {
 
         await categoryService.addItemToCategory(categoryId, menuitemIdEdit.value);
         menuitems.value = await menuItemService.getMenuitems();
+        isEditOpen.value = false
     } else {
         alert("Er is niks ingevuld.")
     }
