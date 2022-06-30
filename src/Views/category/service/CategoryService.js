@@ -61,17 +61,13 @@ export class CategoryService {
         return await response.json()
     }
 
-    async updateCategoryOrder(id, upper, lower) {
-        const data = {
-            upperId: upper,
-            lowerId: lower
-        }
+    async updateCategoryOrder(id, upper) {
+        const data = new FormData();
+        data.append("upperId", upper);
+        data.append("lowerId", id);
         const response = (await fetch("http://localhost:8080/category", {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+            body: data
         }))
 
         return await response.json();

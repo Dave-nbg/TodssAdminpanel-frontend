@@ -20,12 +20,9 @@ async function editCategory() {
 
     categoryService.updateCategory(new Category(props.category.id, name, description)).then(r => console.log(r));
 
-
     const upperCategory = document.getElementById("upperCategory").value;
-    const lowerCategory = props.category.id;
 
-
-    categoryService.updateCategoryOrder(props.category.id, upperCategory, lowerCategory).then(r => console.log(r));
+    await categoryService.updateCategoryOrder(props.category.id, upperCategory).then(r => console.log(r));
 }
 
 </script>
