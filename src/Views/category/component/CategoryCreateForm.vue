@@ -14,6 +14,7 @@ function createCategory() {
 
 
     categoryService.createCategory(category,file)
+
 }
 
 function previewImage(input) {

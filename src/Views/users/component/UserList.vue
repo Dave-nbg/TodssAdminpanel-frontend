@@ -1,7 +1,9 @@
 <script setup>
 import {UserService} from "../service/UserService";
+import {ref} from "vue";
 
-const userService = new UserService();
+const userService = ref("");
+userService.value = new UserService();
 const props = defineProps({
     users: Array
 });

@@ -14,7 +14,7 @@ const editIsOpen = ref(false);
 let editCategory =ref( null);
 
 onMounted(async () => {
-    categories.value = await categoryService.getCategories();
+    categories.value = await categoryService.getAllCategories();
 });
 
 function setCreateOpen(value) {
@@ -34,7 +34,7 @@ async function openEditCategory(category) {
 
 async function deleteCategory(id) {
     await categoryService.deleteCategory(id);
-    categories.value = await categoryService.getCategories();
+    categories.value = await categoryService.getAllCategories();
 }
 
 </script>
@@ -61,7 +61,7 @@ async function deleteCategory(id) {
                                 @click="setEditOpen(false)">X
                         </button>
                         <div class="p-8">
-                            <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
+                            <DialogTitle class="text-lg ">Categorie Aanmaken</DialogTitle>
 
                             <CategoryEditForm :category="editCategory"></CategoryEditForm>
                         </div>

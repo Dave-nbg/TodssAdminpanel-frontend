@@ -19,7 +19,6 @@ export class UserService {
             },
             body: JSON.stringify(username)
         });
-
         return await response.json();
     }
 

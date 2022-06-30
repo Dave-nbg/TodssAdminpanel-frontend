@@ -7,7 +7,7 @@ const categoryService = new CategoryService();
 const categories = ref([]);
 
 onMounted(async () => {
-    categories.value = await categoryService.getCategories();
+    categories.value = await categoryService.getAllCategories();
 });
 
 const props = defineProps({
@@ -17,12 +17,12 @@ const props = defineProps({
 async function editCategory() {
     const name = document.getElementById("name").value;
     const description = document.getElementById("description").value;
-
-    categoryService.updateCategory(new Category(props.category.id, name, description)).then(r => console.log(r));
-
     let upperCategory = document.getElementById("upperCategory").value;
+    categoryService.updateCategory(new Category(props.category.id, name, description, upperCategory)).then(r => console.log(r));
 
-    await categoryService.updateCategoryOrder(props.category.id, upperCategory).then(r => console.log(r));
+
+
+    // await categoryService.updateCategoryOrder(props.category.id);
 }
 
 </script>
