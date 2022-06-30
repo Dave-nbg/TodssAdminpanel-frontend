@@ -26,7 +26,7 @@ onMounted(async () => {
     allergenen.value = ["Selderij", "Ei", "Vis", "Gluten", "Lupine", "Melk", "Weekdieren", "Mosterd", "Noten", "Pinda", "Sesam", "Schaaldieren", "Soja", "Zwaveldioxide"];
     menuitems.value = await menuItemService.getMenuitems();
     locations.value = await locationService.getLocations();
-    categories.value = await categoryService.getCategories();
+    categories.value = await categoryService.getAllCategories();
 })
 
 class Feature {

@@ -17,8 +17,26 @@ export class CategoryService {
     async getCategories() {
         const response = await fetch("http://localhost:8080/category");
         const responseJson = await response.json();
-
         return responseJson.map(category => new Category(category.id, category.name, category.description));
+    }
+
+    async getAllCategories(){
+        const response = await fetch("http://localhost:8080/category");
+        const responseJson = await response.json();
+        const categoryInfo = await responseJson.map(async category => await this.getCategoryDetails(category.id))
+        //console.log(await categoryInfo)
+        const subcategories = []
+        for (const categorie of categoryInfo) {
+            subcategories.push(await categorie);
+        }
+        const subcategoriesInfo = [];
+        for(const categoryInfo of subcategories){
+            const subCategory = categoryInfo.subCategories[0]
+            console.log(subCategory)
+            subcategoriesInfo.push(new Category(subCategory.id, subCategory.name))
+        }
+         const both = responseJson.concat(subcategoriesInfo)
+        return both.map(category => new Category(category.id, category.name, category.description));
     }
 
     async deleteCategory(id) {
@@ -39,8 +57,9 @@ export class CategoryService {
                 'Content-Type': 'application/json',
             },
         });
+        const respJson = response.json()
 
-        return await response.json();
+        return await respJson;
     }
 
     async updateCategory(category) {
