@@ -72,4 +72,16 @@ export class CategoryService {
 
         return await response.json();
     }
+
+    async addItemToCategory(categoryId, menuItemId) {
+        const data = new FormData();
+        data.append("categoryId", categoryId);
+        data.append("menuItemId", menuItemId);
+        const response = (await fetch("http://localhost:8080/category/menuitem", {
+            method: 'PATCH',
+            body: data
+        }))
+
+        return await response.json();
+    }
 }
