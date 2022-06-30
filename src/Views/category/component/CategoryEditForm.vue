@@ -20,7 +20,7 @@ async function editCategory() {
 
     categoryService.updateCategory(new Category(props.category.id, name, description)).then(r => console.log(r));
 
-    const upperCategory = document.getElementById("upperCategory").value;
+    let upperCategory = document.getElementById("upperCategory").value;
 
     await categoryService.updateCategoryOrder(props.category.id, upperCategory).then(r => console.log(r));
 }
@@ -34,7 +34,6 @@ async function editCategory() {
 
         <label for="description">Omschrijving</label>
         <textarea name="description" id="description" cols="30" rows="5" class="rounded border-2 mt-1 p-2"></textarea>
-
 
         <label for="upperCategory">Hogere categorie</label>
         <select id="upperCategory" name="upperCategory">
