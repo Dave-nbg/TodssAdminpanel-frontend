@@ -138,6 +138,69 @@ function getEditedAllergens(){
                     @click="setIsOpen(true)">menuitem toevoegen
             </button>
         </div>
+        <Dialog :open="isOpen" @close="setIsOpen" class="relative z-50">
+            <div class="fixed inset-0 bg-black/70" aria-hidden="true"></div>
+            <div class="fixed flex items-center inset-0 justify-center">
+                <DialogPanel class="bg-white rounded">
+                    <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr"
+                            @click="setIsOpen(false)">X
+                    </button>
+                    <div class="p-8">
+                        <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
+
+
+                        <form id="addItemForm" class="mt-8" method="post" @submit="addMenuitem">
+                            <div class="flex flex-col mb-10">
+                                <label for="menuitemName">Menuitem naam:</label>
+                                <input id="menuitemName" name="menuitemName" class="rounded border-2 mt-1 p-2"
+                                       placeholder="Menuitem">
+                                <label for="menuItemPrice">Menuitem prijs:</label>
+                                <input id="menuItemPrice" name="menuItemPrice" class="rounded border-2 mt-1 p-2"
+                                       placeholder="Menuitem prijs" type="number">
+                                <fieldset class="border-2 mt-2 p-2 flex flex-col ">
+                                    <legend>Menuitem eigenschappen:</legend>
+                                    <br>
+                                    <label for="menuitemDescription">Beschrijving: </label>
+                                    <input id="menuitemDescription" name="menuitemDescription"
+                                           class="rounded border-2 mt-1 p-2" placeholder="beschrijving">
+                                    <label for="menuitemAllergens">Allergenen: </label>
+
+
+                                    <div class="grid-cols-4 grid">
+                                        <div v-for="allergen in allergenen">
+                                            <div id="allergeenInfo">
+                                                <input id="menuitemAllergens" class="mr-2" type="checkbox" @click="getPostAllergens()"/>
+                                                <label for="menuitemAllergens">{{ allergen }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </fieldset>
+
+                                <label for="itemImage">Upload een afbeelding</label>
+                                <input type="file" id="itemImage" name="itemImage" accept="image/png, .jpg, .jpeg" @change="previewImage">
+                                <div id="imagePreview" class="py-4">
+                                    <p v-if="url">Afbeelding preview</p>
+                                    <img v-if="url" :src="url" alt="image preview" width="100" height="100"/>
+                                </div>
+
+                                <label for="PrepareLocation">Bereidings locatie: </label>
+                                <select name="PrepareLocation" id="menuitemLocation">
+                                    <option id="menuitemLocationId" v-for="location in locations">
+                                        {{ location.id + " " + location.name }}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                            <button type="submit" class="bg-primary-500 my-2 h-12 rounded p-3">Locatie toevoegen</button>
+                        </form>
+                    </div>
+                </DialogPanel>
+
+            </div>
+        </Dialog>
 
         <div v-for="(menuitem, index) in menuitems" :key="index">
           <Dialog :open="isEditOpen" @close="" class="relative z-50">

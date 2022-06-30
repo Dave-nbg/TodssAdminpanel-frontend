@@ -10,7 +10,7 @@ let url = ref(null);
 
 function createCategory() {
     let category = new CategoryDTO(categoryName.value, categoryDescription.value);
-    const file = document.getElementById("itemImage").files[0]
+    const file = document.getElementById("categoryImage").files[0]
 
 
     categoryService.createCategory(category,file)
@@ -36,7 +36,7 @@ function previewImage(input) {
             <textarea name="description" id="description" v-model="categoryDescription" class="rounded border-2 mt-1 p-2"></textarea>
 
             <label for="itemImage">Upload een afbeelding</label>
-            <input type="file" id="itemImage" name="itemImage" accept="image/png, .jpg, .jpeg" @change="previewImage">
+            <input type="file" id="categoryImage" name="categoryImage" accept="image/png, .jpg, .jpeg" @change="previewImage">
             <div id="imagePreview" class="py-4">
               <p v-if="url">Afbeelding preview</p>
               <img v-if="url" :src="url" alt="image preview" width="100" height="100"/>

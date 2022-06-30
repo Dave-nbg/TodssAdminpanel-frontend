@@ -58,7 +58,7 @@ async function deleteCategory(id) {
                 <div class="fixed flex items-center inset-0 justify-center">
                     <DialogPanel class="bg-white rounded">
                         <button class="float-right bg-red-700 text-white w-9 h-9 content-center rounded-tr"
-                                @click="setCreateOpen(false)">X
+                                @click="setEditOpen(false)">X
                         </button>
                         <div class="p-8">
                             <DialogTitle class="text-lg ">Menuitem Aanmaken</DialogTitle>
