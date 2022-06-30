@@ -22,7 +22,7 @@ async function editCategory() {
 
 
     const upperCategory = document.getElementById("upperCategory").value;
-    const lowerCategory = document.getElementById("lowerCategory").value;
+    const lowerCategory = props.category.id;
 
 
     categoryService.updateCategoryOrder(props.category.id, upperCategory, lowerCategory).then(r => console.log(r));
@@ -41,11 +41,6 @@ async function editCategory() {
 
         <label for="upperCategory">Hogere categorie</label>
         <select id="upperCategory" name="upperCategory">
-            <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
-        </select>
-
-        <label for="lowerCategory">Lagere categorie</label>
-        <select id="lowerCategory" name="lowerCategory">
             <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
         </select>
 

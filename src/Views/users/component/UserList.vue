@@ -11,8 +11,8 @@ const props = defineProps({
     <div class="m-8">
         <table class="table-auto">
             <tr>
-                <th>Gebruikersnaam</th>
-                <th>Verwijderen</th>
+                <th class="p-2">Gebruikersnaam</th>
+                <th class="p-2">Verwijderen</th>
             </tr>
             <tr v-for="(user, index) in users" :key="index" class="p-2 border my-2">
                 <td class="p-2">{{ user.username }}</td>
